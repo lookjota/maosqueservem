@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import VolunteerCard from "../components/VolunteerCard";
+import VolunteerStats from "../components/VolunteerStats";
 
 const Volunteers = () => {
   const [volunteers, setVolunteers] = useState<any[]>([]);
@@ -132,6 +133,8 @@ const filteredVolunteers = sortedVolunteers.filter((volunteer) => {
       <p className="text-gray-500 mb-8">
         Total: {volunteers.length} pessoas
       </p>
+
+      <VolunteerStats volunteers={volunteers} />
 
       <div className="space-y-6">
         {filteredVolunteers.map((volunteer) => (
