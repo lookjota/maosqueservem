@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import VolunteerCard from "../components/VolunteerCard";
 import VolunteerStats from "../components/VolunteerStats";
+import { useNavigate } from "react-router-dom";
 
 const Volunteers = () => {
   const [volunteers, setVolunteers] = useState<any[]>([]);
   const [sortBy, setSortBy] = useState("date");
   const [search, setSearch] = useState("");
+
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadVolunteers() {
@@ -79,6 +83,21 @@ const filteredVolunteers = sortedVolunteers.filter((volunteer) => {
 
   return (
     <div className="max-w-6xl mx-auto py-12 px-6">
+      <div className="flex justify-start mb-6">
+        <button
+          onClick={() => navigate("/")}
+          className="
+            flex items-center gap-2
+            px-4 py-2
+            bg-yellow-500 text-white
+            rounded-xl shadow-md
+            hover:bg-yellow-600
+            transition transform hover:scale-105
+          "
+        >
+          ← Home
+        </button>
+      </div>
       <h1 className="text-4xl font-bold mb-2">
         ❤️ Voluntários cadastrados
       </h1>

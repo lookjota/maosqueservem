@@ -4,12 +4,25 @@ class EventBus {
   private listeners: Record<string, Listener[]> = {};
 
   on(event: string, callback: Listener) {
-    if (!this.listeners[event]) this.listeners[event] = [];
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+
     this.listeners[event].push(callback);
   }
 
+  off(event: string, callback: Listener) {
+    if (!this.listeners[event]) return;
+
+    this.listeners[event] = this.listeners[event].filter(
+      (listener) => listener !== callback
+    );
+  }
+
   emit(event: string, data: any) {
-    (this.listeners[event] || []).forEach((cb) => cb(data));
+    if (!this.listeners[event]) return;
+
+    this.listeners[event].forEach((callback) => callback(data));
   }
 }
 

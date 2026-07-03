@@ -28,6 +28,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
   const [nameError, setNameError] = useState('');
   const [whatsappError, setWhatsappError] = useState('');
 
+  const [success, setSuccess] = useState(false);
+
   const [values, setValues] = useState<Record<string, number>>(
     categories.reduce((acc, cat) => {
       acc[cat] = 5;
@@ -98,10 +100,28 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
         values,
       });
 
-      alert("Obrigado por fazer parte das Mãos que Servem ❤️");
+      setSuccess(true);
 
-      setNameError("");
-      setWhatsappError("");
+        setTimeout(() => {
+          setSuccess(false);
+        }, 2500);
+
+        setNameError("");
+        setWhatsappError("");
+
+        // RESET CAMPOS DO FORM
+        setName("");
+        setWhatsapp("");
+
+        // RESET SLIDERS
+        setValues(
+          categories.reduce((acc, cat) => {
+            acc[cat] = 5;
+            return acc;
+          }, {} as Record<string, number>)
+        );
+      setName("");
+      setWhatsapp("");
 
       setValues(
         categories.reduce((acc, cat) => {
@@ -257,6 +277,31 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
           </button>
 
         </form>
+
+         
+        {success && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            
+            {/* backdrop */}
+            <div className="absolute inset-0 bg-black/30 backdrop-blur-sm animate-fadeIn" />
+
+            {/* card */}
+            <div className="relative bg-white rounded-2xl shadow-2xl px-10 py-8 text-center animate-popIn">
+              
+              <div className="text-5xl mb-4">✨</div>
+
+              <h2 className="text-2xl font-bold text-gray-900">
+                Resposta enviada!
+              </h2>
+
+              <p className="text-gray-600 mt-2">
+                Obrigado por fazer parte das Mãos que Servem ❤️
+              </p>
+
+              <div className="mt-6 w-full h-1 bg-yellow-400 rounded-full animate-progress" />
+            </div>
+          </div>
+        )}
 
       </div>
     </section>

@@ -1,3 +1,5 @@
+import CountUp from "react-countup";
+
 type Volunteer = {
   created_at: string;
 
@@ -82,7 +84,7 @@ const VolunteerStats = ({ volunteers }: Props) => {
       <Card
         icon="⭐"
         title="Média Geral"
-        value={average.toFixed(1)}
+        value={Number(average.toFixed(1))}
       />
 
       <Card
@@ -123,7 +125,24 @@ const Card = ({ icon, title, value }: CardProps) => (
     </p>
 
     <h2 className="text-4xl font-bold text-yellow-600 mt-2">
-      {value}
+
+      {typeof value === "number" ? (
+
+        // <CountUp
+        //   start={0}
+        //   end={value}
+        //   duration={2.2}
+        //   separator="."
+        //   decimals={Number.isInteger(value) ? 0 : 1}
+        // />
+        <div>123</div>
+
+      ) : (
+
+        value
+
+      )}
+
     </h2>
 
   </div>

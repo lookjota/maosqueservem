@@ -1,43 +1,40 @@
 import { createContext, useContext, useState } from "react";
 
 type Toast = {
-  id: number;
   title: string;
   message: string;
 };
 
 type ToastContextType = {
-  addToast: (toast: Omit<Toast, "id">) => void;
+  addToast: (toast: Toast) => void;
 };
 
-const ToastContext = createContext({} as ToastContextType);
+const ToastContext = createContext<ToastContextType | null>(null);
 
-export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+export const ToastProvider = ({ children }: any) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  function addToast(toast: Omit<Toast, "id">) {
-    const id = Date.now();
-
-    setToasts((prev) => [...prev, { id, ...toast }]);
+  const addToast = (toast: Toast) => {
+    setToasts((prev) => [...prev, toast]);
 
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
-  }
+      setToasts((prev) => prev.slice(1));
+    }, 3000);
+  };
 
   return (
     <ToastContext.Provider value={{ addToast }}>
       {children}
 
-      {/* UI GLOBAL DO TOAST */}
-      <div className="fixed top-6 right-6 z-[9999] space-y-3">
-        {toasts.map((t) => (
+      {/* UI simples */}
+      <div className="fixed top-5 right-5 space-y-2 z-50">
+        {toasts.map((t, i) => (
           <div
-            key={t.id}
-            className="w-80 bg-white border-l-4 border-yellow-500 shadow-xl rounded-xl p-4 animate-slide-in"
+            key={i}
+            className="bg-white shadow-lg border px-4 py-3 rounded-xl"
           >
-            <p className="font-semibold text-gray-800">✨ {t.title}</p>
-            <p className="text-sm text-gray-600 mt-1">{t.message}</p>
+            <p className="font-semibold">{t.title}</p>
+            <p className="text-sm text-gray-600">{t.message}</p>
           </div>
         ))}
       </div>
@@ -45,4 +42,8 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useToast = () => useContext(ToastContext);
+export const useToast = () => {
+  const context = useContext(ToastContext);
+  if (!context) throw new Error("useToast must be used within ToastProvider");
+  return context;
+};

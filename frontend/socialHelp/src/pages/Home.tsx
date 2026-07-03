@@ -18,6 +18,9 @@ const Home = () => {
 
     const [result, setResult] = useState<Record<string, number> | null>(null);
 
+    const [liveFeed, setLiveFeed] = useState<
+      { name: string; created_at: string }[]
+    >([]);
 
     useEffect(() => {
 
@@ -35,15 +38,21 @@ const Home = () => {
       testConnection();
 
     }, []);
+        useEffect(() => {
+          const handler = (data: any) => {
+            addToast({
+              title: `${data.name} acabou de responder`,
+              message: `❤️ Nova participação registrada na comunidade`,
+            });
+          };
 
-    useEffect(() => {
-  eventBus.on("volunteer:new", (data) => {
-    addToast({
-      title: `${data.name} acabou de responder`,
-      message: `❤️ Nova participação registrada na comunidade`,
-    });
-  });
-}, []);
+          eventBus.on("volunteer:new", handler);
+
+          return () => {
+            eventBus.off("volunteer:new", handler);
+          };
+        }, []);
+
     return (
     <>
 

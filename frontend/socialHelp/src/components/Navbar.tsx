@@ -1,5 +1,6 @@
 import Logo from "../assets/cross.png";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [active, setActive] = useState("home");
@@ -7,10 +8,13 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(false);
 
+  const navigate = useNavigate();
+
   const menu = [
     { name: "Home", link: "#home" },
     { name: "Serviços", link: "#servicos" },
     { name: "Comunidade", link: "#comunidade" },
+    { name: "Voluntários", link: "/volunteers", route: true },
   ];
 
   // scroll spy
@@ -79,28 +83,67 @@ const Navbar = () => {
             {menu.map((item) => {
               const isActive = active === item.link.replace("#", "");
 
+              const isRoute = item.route;
+
               return (
                 <a
                   key={item.name}
-                  href={item.link}
+                  href={isRoute ? undefined : item.link}
+                  onClick={(e) => {
+                    if (isRoute) {
+                      e.preventDefault();
+                      navigate(item.link);
+                      setIsOpen(false);
+                    }
+                  }}
                   className="relative group transition-colors"
                 >
-                  <span
-                    className={`transition-colors ${
-                      isActive ? "text-gray-900" : "text-gray-600"
-                    }`}
-                  >
-                    {item.name}
-                  </span>
+                  {isRoute && item.name === "Voluntários" ? (
+                    <span
+                      className="
+                        relative flex items-center gap-2
+                        px-4 py-2 rounded-xl
+                        bg-white border border-gray-200
+                        text-gray-800 font-semibold
+                        shadow-sm
+                        transition-all duration-300
+                        hover:bg-yellow-50
+                        hover:border-yellow-400
+                        hover:text-yellow-700
+                        hover:shadow-md
+                        hover:scale-[1.02]
+                        active:scale-[0.98]
+                      "
+                    >
+                      📊 {item.name}
 
-                  {/* underline suave */}
-                  <span
-                    className={`absolute left-0 -bottom-1 h-[2px] bg-yellow-500 transition-all duration-500 ease-out ${
-                      active === item.link.replace("#", "")
-                        ? "w-full"
-                        : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                      {/* glow lateral */}
+                      <span className="
+                        absolute left-0 top-1/2 -translate-y-1/2
+                        w-1 h-6 bg-yellow-400 rounded-r-full
+                        opacity-0 group-hover:opacity-100
+                        transition
+                      " />
+                    </span>
+                  ) : (
+                    <span
+                      className={`transition-colors ${
+                        isActive ? "text-gray-900" : "text-gray-600"
+                      }`}
+                    >
+                      {item.name}
+                    </span>
+                  )}
+
+                  {!isRoute && (
+                    <span
+                      className={`absolute left-0 -bottom-1 h-[2px] bg-yellow-500 transition-all duration-500 ease-out ${
+                        active === item.link.replace("#", "")
+                          ? "w-full"
+                          : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  )}
                 </a>
               );
             })}
@@ -175,6 +218,28 @@ const Navbar = () => {
           >
             Participar da Missão
           </a>
+          <button
+            onClick={() => {
+              navigate("/volunteers");
+              setIsOpen(false);
+            }}
+            className="
+              relative text-lg font-semibold px-4 py-2 rounded-xl
+              text-gray-800 bg-gray-100
+              border border-gray-200
+              transition-all duration-300
+              hover:bg-yellow-50
+              hover:border-yellow-400
+              hover:text-yellow-700
+              hover:scale-[1.02]
+              active:scale-[0.98]
+              shadow-sm hover:shadow-md
+            "
+          >
+            <span className="flex items-center gap-2">
+              📊 Voluntários
+            </span>
+          </button>
 
           <p className="text-xs text-gray-400 mt-6">
             Mãos que Servem · Comunidade de voluntários
