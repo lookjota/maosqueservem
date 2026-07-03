@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import NossaMissao from '../components/NossaMissao'
-import ConviteAoServico from '../components/ConviteAoServico'
 import MissionGrid from '../components/MissionGrid'
 import InterestForm from '../components/InterestForm'
 import ResultSection from '../components/ResultSection'
@@ -58,7 +57,6 @@ const Home = () => {
       </section>
       <NossaMissao />
 
-      {/* <ConviteAoServico /> */}
       <section id="servicos">
         <MissionGrid />
       </section>
