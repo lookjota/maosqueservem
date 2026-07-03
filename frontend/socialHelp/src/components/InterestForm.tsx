@@ -25,6 +25,8 @@ const categories = [
 const InterestForm = ({ onFinish }: InterestFormProps) => {
   const [name, setName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [whatsappError, setWhatsappError] = useState('');
 
   const [values, setValues] = useState<Record<string, number>>(
     categories.reduce((acc, cat) => {
@@ -47,12 +49,27 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
       e: React.FormEvent<HTMLFormElement>
     ) => {
       e.preventDefault();
+        const cleanName = name.trim();
+
+          let hasError = false;
+
+          if (cleanName.length < 4) {
+            setNameError("O nome deve possuir pelo menos 4 caracteres.");
+            hasError = true;
+          }
+
+          if (whatsapp.length !== 11) {
+            setWhatsappError("Informe um WhatsApp com DDD (11 números).");
+            hasError = true;
+          }
+
+          if (hasError) return;
 
       const { error } = await supabase
         .from("volunteers")
         .insert([
           {
-            name,
+            name: cleanName,
             whatsapp,
 
             natureza: values["Natureza"],
@@ -65,7 +82,9 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             hospitais: values["Hospitais"],
             presidios: values["Presídios"],
           },
-        ]);
+        ])
+        .select();
+        ;
 
       if (error) {
         console.error("Erro ao salvar:", error);
@@ -81,8 +100,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
 
       alert("Obrigado por fazer parte das Mãos que Servem ❤️");
 
-      setName("");
-      setWhatsapp("");
+      setNameError("");
+      setWhatsappError("");
 
       setValues(
         categories.reduce((acc, cat) => {
@@ -126,9 +145,28 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             <input
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+
+                setName(value);
+
+                if (value.trim().length < 4) {
+                  setNameError("O nome deve possuir pelo menos 4 caracteres.");
+                } else {
+                  setNameError("");
+                }
+              }}
               placeholder="Digite seu nome"
-              className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              minLength={3}
+              maxLength={100}
+              className={`w-full p-4 rounded-xl border focus:outline-none focus:ring-2 transition
+
+                ${
+                  nameError
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-200 focus:ring-yellow-400"
+                }
+                `}
               required
             />
           </div>
@@ -142,11 +180,36 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             <input
               type="tel"
               value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-              placeholder="(00) 00000-0000"
-              className="w-full p-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "").slice(0, 11);
+
+                setWhatsapp(value);
+
+                if (value.length < 11) {
+                  setWhatsappError("Informe um WhatsApp com DDD (11 números).");
+                } else {
+                  setWhatsappError("");
+                }
+              }}
+              placeholder="11999998888"
+              inputMode="numeric"
+              pattern="[0-9]{11}"
+              minLength={11}
+              className={`w-full p-4 rounded-xl border focus:outline-none focus:ring-2 transition
+
+                ${
+                  nameError
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-200 focus:ring-yellow-400"
+                }
+                `}
               required
             />
+            {whatsappError && (
+              <p className="mt-2 text-sm text-red-500">
+                {whatsappError}
+              </p>
+          )}
           </div>
 
           {/* Sliders */}

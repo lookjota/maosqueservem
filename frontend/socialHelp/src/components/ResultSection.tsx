@@ -22,7 +22,10 @@ const ResultSection = ({ result }: Props) => {
   console.log("RESULT RECEBIDO:", result);
 
   return (
-    <section className="py-32 bg-gradient-to-b from-white via-yellow-50 to-white">
+    <section
+      id="resultado"
+      className="py-32 bg-gradient-to-b from-white via-yellow-50 to-white"
+    >
 
       <div className="max-w-4xl mx-auto px-6">
 
@@ -96,11 +99,6 @@ const ResultSection = ({ result }: Props) => {
           {/* 📊 GRÁFICO (AGORA FUNCIONA) */}
           <div className="mt-16">
           </div>
-
-          {/* DEBUG (OPCIONAL) */}
-          <pre className="text-xs text-left mt-10 bg-gray-50 p-4 rounded-lg">
-            {JSON.stringify(result, null, 2)}
-          </pre>
 
         </div>
       </div>

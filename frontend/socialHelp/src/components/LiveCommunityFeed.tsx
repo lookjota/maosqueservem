@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { eventBus } from "../lib/eventBus";
 
 type Volunteer = {
   id: number;
@@ -52,36 +53,11 @@ if (data.length > 0) {
   }
 
 useEffect(() => {
-
   loadVolunteers();
 
-  const channel = supabase
-
-    .channel("live-community")
-
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "volunteers",
-      },
-      () => {
-
-        console.log("Novo voluntário!");
-
-        loadVolunteers();
-
-      }
-    )
-
-    .subscribe();
-
-  return () => {
-
-    supabase.removeChannel(channel);
-
-  };
+  eventBus.on("volunteer:new", () => {
+    loadVolunteers();
+  });
 
 }, []);
 
