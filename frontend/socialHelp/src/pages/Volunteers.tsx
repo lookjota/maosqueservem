@@ -5,6 +5,7 @@ import VolunteerCard from "../components/VolunteerCard";
 const Volunteers = () => {
   const [volunteers, setVolunteers] = useState<any[]>([]);
   const [sortBy, setSortBy] = useState("date");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function loadVolunteers() {
@@ -64,18 +65,52 @@ const Volunteers = () => {
 
 });
 
+const filteredVolunteers = sortedVolunteers.filter((volunteer) => {
+
+  const text = search.toLowerCase();
+
+  return (
+    volunteer.name.toLowerCase().includes(text) ||
+    volunteer.whatsapp.includes(search)
+  );
+
+});
+
   return (
     <div className="max-w-6xl mx-auto py-12 px-6">
       <h1 className="text-4xl font-bold mb-2">
         ❤️ Voluntários cadastrados
       </h1>
 
-      <div className="flex justify-end mb-8">
+      <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
+
+        <input
+          type="text"
+          placeholder="🔍 Procurar por nome ou WhatsApp..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="
+            w-full
+            md:w-96
+            border
+            rounded-xl
+            px-4
+            py-3
+            focus:outline-none
+            focus:ring-2
+            focus:ring-yellow-400
+          "
+        />
 
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="border rounded-xl px-4 py-2"
+          className="
+            border
+            rounded-xl
+            px-4
+            py-3
+          "
         >
 
           <option value="date">
@@ -87,7 +122,7 @@ const Volunteers = () => {
           </option>
 
           <option value="score">
-            Maior afinidade geral
+            Maior afinidade
           </option>
 
         </select>
@@ -99,7 +134,7 @@ const Volunteers = () => {
       </p>
 
       <div className="space-y-6">
-        {sortedVolunteers.map((volunteer) => (
+        {filteredVolunteers.map((volunteer) => (
           <VolunteerCard
             key={volunteer.id}
             volunteer={volunteer}
@@ -107,6 +142,21 @@ const Volunteers = () => {
         ))}
        
       </div>
+      {filteredVolunteers.length === 0 && (
+
+          <div className="text-center py-20">
+
+            <h2 className="text-3xl font-bold text-gray-700">
+              Nenhum voluntário encontrado
+            </h2>
+
+            <p className="text-gray-500 mt-3">
+              Tente pesquisar outro nome ou WhatsApp.
+            </p>
+
+          </div>
+
+        )}
     </div>
   );
 };
