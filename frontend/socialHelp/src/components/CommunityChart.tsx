@@ -55,7 +55,7 @@ const CommunityChart = () => {
       return;
     }
 
-    const totals = {
+    const totals: Record<string, number> = {
       Natureza: 0,
       Animais: 0,
       Crianças: 0,

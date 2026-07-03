@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import './App.css'
 import Home from './pages/Home'
 import { startRealtime } from "./lib/realtime";

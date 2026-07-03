@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import NossaMissao from '../components/NossaMissao'
@@ -9,7 +9,7 @@ import ResultSection from '../components/ResultSection'
 import { supabase } from '../lib/supabase' // 🔥 AJUSTE AQUI (IMPORTANTE)
 import CommunityChart from '../components/CommunityChart'
 import LiveCommunityFeed from "../components/LiveCommunityFeed";
-import { ToastProvider, useToast } from "../context/ToastContext";
+import { useToast } from "../context/ToastContext";
 import { eventBus } from '../lib/eventBus'
 import FinalMessage from '../components/FinalMessage'
 
@@ -17,10 +17,6 @@ const Home = () => {
   const { addToast } = useToast();
 
     const [result, setResult] = useState<Record<string, number> | null>(null);
-
-    const [liveFeed, setLiveFeed] = useState<
-      { name: string; created_at: string }[]
-    >([]);
 
     useEffect(() => {
 

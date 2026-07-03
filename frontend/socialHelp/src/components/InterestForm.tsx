@@ -37,7 +37,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
     }, {} as Record<string, number>)
   );
 
-  const handleChange = (category, value) => {
+  
+const handleChange = (category: string, value: number) => {
     setValues({
       ...values,
       [category]: value,

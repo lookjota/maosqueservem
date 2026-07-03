@@ -1,4 +1,3 @@
-import CountUp from "react-countup";
 
 type Volunteer = {
   created_at: string;

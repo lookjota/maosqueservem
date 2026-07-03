@@ -1,12 +1,18 @@
-import React from 'react';
 import { ArrowRight } from 'lucide-react';
+
+type MissionCardProps = {
+  image: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+};
 
 const MissionCard = ({
   image,
   icon,
   title,
   description,
-}) => {
+}: MissionCardProps) => {
   return (
     <div className="group bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100 hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
 
