@@ -58,7 +58,7 @@ const Home = () => {
       </section>
       <NossaMissao />
 
-      <ConviteAoServico />
+      {/* <ConviteAoServico /> */}
       <section id="servicos">
         <MissionGrid />
       </section>
