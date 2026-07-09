@@ -53,14 +53,6 @@ const Home = () => {
 
       <Navbar />
       <section id="home">
-        <Hero />
-      </section>
-      <NossaMissao />
-
-      <section id="servicos">
-        <MissionGrid />
-      </section>
-
       {/* <CommunityChart refresh={refreshChart} /> */}
       <section id="comunidade">
         <CommunityChart />
@@ -85,6 +77,14 @@ const Home = () => {
           }}
         />
       </section>
+        <Hero />
+      </section>
+      <NossaMissao />
+
+      <section id="servicos">
+        <MissionGrid />
+      </section>
+
 
       {result && <ResultSection result={result} />}
 
