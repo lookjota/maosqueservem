@@ -11,11 +11,11 @@ type Volunteer = {
   animais: number;
   criancas: number;
   idosos: number;
-  pcd: number;
-  familias: number;
-  empresas: number;
-  hospitais: number;
-  presidios: number;
+  // pcd: number;
+  // familias: number;
+  // empresas: number;
+  // hospitais: number;
+  // presidios: number;
 };
 
 const LiveCommunityFeed = () => {
@@ -113,11 +113,11 @@ const VolunteerCard = ({ volunteer, highlight, }: CardProps) => {
     { name: "Animais", value: volunteer.animais },
     { name: "Crianças", value: volunteer.criancas },
     { name: "Idosos", value: volunteer.idosos },
-    { name: "PCD", value: volunteer.pcd },
-    { name: "Famílias", value: volunteer.familias },
-    { name: "Empresas", value: volunteer.empresas },
-    { name: "Hospitais", value: volunteer.hospitais },
-    { name: "Presídios", value: volunteer.presidios },
+    // { name: "PCD", value: volunteer.pcd },
+    // { name: "Famílias", value: volunteer.familias },
+    // { name: "Empresas", value: volunteer.empresas },
+    // { name: "Hospitais", value: volunteer.hospitais },
+    // { name: "Presídios", value: volunteer.presidios },
   ];
 
   scores.sort((a, b) => b.value - a.value);

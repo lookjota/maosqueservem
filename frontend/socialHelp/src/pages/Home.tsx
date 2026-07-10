@@ -53,11 +53,7 @@ const Home = () => {
 
       <Navbar />
       <section id="home">
-      {/* <CommunityChart refresh={refreshChart} /> */}
-      <section id="comunidade">
-        <CommunityChart />
-      </section>
-      <LiveCommunityFeed />
+      
 
       <section id="formulario">
         <InterestForm
@@ -76,7 +72,17 @@ const Home = () => {
             }, 100);
           }}
         />
+        {result && <ResultSection result={result} />}
+      <section id="comunidade">
+        <CommunityChart />
       </section>
+      </section>
+      
+       <LiveCommunityFeed />
+       
+       {/* <CommunityChart refresh={refreshChart} /> */}
+
+     
         <Hero />
       </section>
       <NossaMissao />
@@ -86,7 +92,7 @@ const Home = () => {
       </section>
 
 
-      {result && <ResultSection result={result} />}
+      
 
       <FinalMessage />
     </>

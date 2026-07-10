@@ -1,3 +1,6 @@
+import { maskWhatsapp } from "../src/utils/maskWhatsapp";
+
+
 type Volunteer = {
   id: number;
   name: string;
@@ -6,11 +9,11 @@ type Volunteer = {
   animais: number;
   criancas: number;
   idosos: number;
-  pcd: number;
-  familias: number;
-  empresas: number;
-  hospitais: number;
-  presidios: number;
+  // pcd: number;
+  // familias: number;
+  // empresas: number;
+  // hospitais: number;
+  // presidios: number;
   created_at: string;
 };
 
@@ -40,7 +43,8 @@ const VolunteerCard = ({ volunteer }: Props) => {
           </h2>
 
           <p className="text-gray-500">
-            {volunteer.whatsapp}
+             WhatsApp:
+            {maskWhatsapp(volunteer.whatsapp)}
           </p>
         </div>
 
@@ -56,11 +60,11 @@ const VolunteerCard = ({ volunteer }: Props) => {
         <Item nome="🐶 Animais" valor={volunteer.animais} />
         <Item nome="🧒 Crianças" valor={volunteer.criancas} />
         <Item nome="👴 Idosos" valor={volunteer.idosos} />
-        <Item nome="♿ PCD" valor={volunteer.pcd} />
-        <Item nome="👨‍👩‍👧 Famílias" valor={volunteer.familias} />
-        <Item nome="🏢 Empresas" valor={volunteer.empresas} />
-        <Item nome="🏥 Hospitais" valor={volunteer.hospitais} />
-        <Item nome="🔒 Presídios" valor={volunteer.presidios} />
+        {/* <Item nome="♿ PCD" valor={volunteer.pcd} /> */}
+        {/* <Item nome="👨‍👩‍👧 Famílias" valor={volunteer.familias} /> */}
+        {/* <Item nome="🏢 Empresas" valor={volunteer.empresas} /> */}
+        {/* <Item nome="🏥 Hospitais" valor={volunteer.hospitais} /> */}
+        {/* <Item nome="🔒 Presídios" valor={volunteer.presidios} /> */}
 
       </div>
 

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 
 type Volunteer = {
   created_at: string;
@@ -6,18 +8,49 @@ type Volunteer = {
   animais: number;
   criancas: number;
   idosos: number;
-  pcd: number;
-  familias: number;
-  empresas: number;
-  hospitais: number;
-  presidios: number;
+  // pcd: number;
+  // familias: number;
+  // empresas: number;
+  // hospitais: number;
+  // presidios: number;
 };
 
 type Props = {
   volunteers: Volunteer[];
 };
-
 const VolunteerStats = ({ volunteers }: Props) => {
+
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
+
+
+      useEffect(() => {
+
+      setVisibleCards([]);
+
+      const timers = [0,1,2,3].map((index) => {
+
+        return setTimeout(() => {
+
+          setVisibleCards((prev) => [
+            ...prev,
+            index
+          ]);
+
+        }, index * 180);
+
+      });
+
+
+      return () => {
+
+        timers.forEach(clearTimeout);
+
+      };
+
+
+    }, [volunteers]);
+
+
 
   const total = volunteers.length;
 
@@ -30,26 +63,26 @@ const VolunteerStats = ({ volunteers }: Props) => {
   const totals = {
     Natureza: 0,
     Animais: 0,
-    Crianças: 0,
+    Orfanato: 0,
     Idosos: 0,
-    PCD: 0,
-    Famílias: 0,
-    Empresas: 0,
-    Hospitais: 0,
-    Presídios: 0,
+    // PCD: 0,
+    // Famílias: 0,
+    // Empresas: 0,
+    // Hospitais: 0,
+    // Presídios: 0,
   };
 
   volunteers.forEach((v) => {
 
     totals.Natureza += v.natureza;
     totals.Animais += v.animais;
-    totals.Crianças += v.criancas;
+    totals.Orfanato += v.criancas;
     totals.Idosos += v.idosos;
-    totals.PCD += v.pcd;
-    totals.Famílias += v.familias;
-    totals.Empresas += v.empresas;
-    totals.Hospitais += v.hospitais;
-    totals.Presídios += v.presidios;
+    // totals.PCD += v.pcd;
+    // totals.Famílias += v.familias;
+    // totals.Empresas += v.empresas;
+    // totals.Hospitais += v.hospitais;
+    // totals.Presídios += v.presidios;
 
   });
 
@@ -64,33 +97,55 @@ const VolunteerStats = ({ volunteers }: Props) => {
       ? 0
       : totalScores / (total * 9);
 
+      const cards = [
+
+  {
+    icon:"👥",
+    title:"Voluntários",
+    value:total
+  },
+
+  {
+    icon:"🌳",
+    title:"Área mais procurada",
+    value:topArea?.[0] ?? "-"
+  },
+
+  {
+    icon:"⭐",
+    title:"Média Geral",
+    value:Number(average.toFixed(1))
+  },
+
+  {
+    icon:"📅",
+    title:"Cadastros Hoje",
+    value:todayCount
+  }
+
+];
+
   return (
 
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+    <div className="
+      grid
+      grid-cols-1
+      md:grid-cols-2
+      lg:grid-cols-4
+      gap-6
+      mb-12
+      ">
+        {
+        cards.map((card,index)=>(
 
-      <Card
-        icon="👥"
-        title="Voluntários"
-        value={total}
-      />
+        <Card
+          key={index}
+          {...card}
+          visible={visibleCards.includes(index)}
+        />
 
-      <Card
-        icon="🌳"
-        title="Área mais procurada"
-        value={topArea?.[0]}
-      />
-
-      <Card
-        icon="⭐"
-        title="Média Geral"
-        value={Number(average.toFixed(1))}
-      />
-
-      <Card
-        icon="📅"
-        title="Cadastros Hoje"
-        value={todayCount}
-      />
+        ))
+        }
 
     </div>
 
@@ -101,19 +156,36 @@ type CardProps = {
   icon: string;
   title: string;
   value: string | number;
+  visible: boolean;
 };
 
-const Card = ({ icon, title, value }: CardProps) => (
+const Card = ({ icon, title, value, visible }: CardProps) => (
 
-  <div className="
+  <div
+    className={`
     bg-white
     rounded-2xl
     shadow-lg
     border
     p-8
     hover:shadow-xl
-    transition
-  ">
+    transition-all
+    duration-700
+
+    ${
+    visible
+
+    ?
+    "opacity-100 translate-y-0"
+
+    :
+
+    "opacity-0 translate-y-6"
+
+    }
+
+    `}
+    >
 
     <div className="text-4xl">
       {icon}
@@ -125,7 +197,7 @@ const Card = ({ icon, title, value }: CardProps) => (
 
     <h2 className="text-4xl font-bold text-yellow-600 mt-2">
 
-      {typeof value === "number" ? (
+      {/* {typeof value === "number" ? (
 
         // <CountUp
         //   start={0}
@@ -134,14 +206,13 @@ const Card = ({ icon, title, value }: CardProps) => (
         //   separator="."
         //   decimals={Number.isInteger(value) ? 0 : 1}
         // />
-        <div>123</div>
-
+        value
       ) : (
 
         value
 
-      )}
-
+      )} */}
+  {value}
     </h2>
 
   </div>

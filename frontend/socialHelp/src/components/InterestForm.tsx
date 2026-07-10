@@ -15,15 +15,11 @@ type Category = {
 };
 
 const categories: Category[] = [
-  { name: 'Natureza', emoji: '🌿', column: 'natureza' },
-  { name: 'Animais', emoji: '🐾', column: 'animais' },
-  { name: 'Crianças', emoji: '🧒', column: 'criancas' },
-  { name: 'Idosos', emoji: '🧓', column: 'idosos' },
-  { name: 'PCD', emoji: '♿', column: 'pcd' },
-  { name: 'Famílias', emoji: '👨‍👩‍👧‍👦', column: 'familias' },
-  { name: 'Empresas', emoji: '🏢', column: 'empresas' },
-  { name: 'Hospitais', emoji: '🏥', column: 'hospitais' },
-  { name: 'Presídios', emoji: '🕊️', column: 'presidios' },
+  { name: 'Mutirões ecológicos', emoji: '🌿', column: 'natureza' },
+  { name: 'Abrigo de animais', emoji: '🐾', column: 'animais' },
+  { name: 'Orfanato', emoji: '🧒', column: 'criancas' },
+  { name: 'Lar de idosos', emoji: '🧓', column: 'idosos' },
+
 ];
 
 const SUCCESS_DURATION = 2500;
@@ -57,7 +53,7 @@ const HeartIcon = ({ filled }: { filled: boolean }) => (
     className="h-full w-full"
     fill={filled ? 'currentColor' : 'none'}
     stroke="currentColor"
-    strokeWidth={filled ? 0 : 1.7}
+    strokeWidth={filled ? 0 : 1.9}
     aria-hidden="true"
   >
     <path
@@ -78,6 +74,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
 
   const [values, setValues] = useState<Record<string, number>>(emptyValues);
 
+  const [allowPublicDisplay, setAllowPublicDisplay] = useState(false);
+
   // Pré-visualização ao passar o mouse sobre os corações (desktop)
   const [hovered, setHovered] = useState<{ cat: string; value: number } | null>(
     null
@@ -94,6 +92,14 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
+    if (!allowPublicDisplay) {
+      alert(
+        "É necessário autorizar a divulgação do primeiro nome e da área de interesse para enviar o formulário."
+      );
+      return;
+    }
+
     e.preventDefault();
     if (isSubmitting) return;
 
@@ -142,16 +148,19 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
       setNameError('');
       setWhatsappError('');
       setValues(emptyValues());
+      setAllowPublicDisplay(false);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const isOdd = categories.length % 2 === 1;
+
   return (
     <section
       id="formulario"
       className="py-24 md:py-28"
-      style={{ background: 'linear-gradient(180deg, #FEFCE8 0%, #FFFFFF 55%)' }}
+      style={{ background: 'linear-gradient(180deg, #FEF9C3 0%, #FFFFFF 70%)' }}
     >
       <style>{`
         @keyframes mqsFade { from { opacity: 0 } to { opacity: 1 } }
@@ -171,7 +180,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
       <div className="mx-auto max-w-5xl px-4 sm:px-6">
         {/* Título */}
         <div className="mb-14 text-center md:mb-16">
-          <span className="inline-flex items-center gap-2 rounded-full bg-yellow-100 px-4 py-1.5 text-sm font-semibold text-yellow-700">
+          <span className="inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-white px-4 py-1.5 text-sm font-semibold text-yellow-800 shadow-sm">
             ❤️ Mãos que Servem
           </span>
 
@@ -179,7 +188,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             Responder ao chamado
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-gray-700">
             Não queremos apenas coletar informações. Queremos compreender onde
             seus dons podem ser colocados a serviço do próximo.
           </p>
@@ -188,18 +197,18 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
         {/* Formulário */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-3xl border border-gray-100 bg-white p-5 shadow-xl sm:p-8 md:p-12"
+          className="rounded-3xl border border-gray-200 bg-white p-5 shadow-xl sm:p-8 md:p-12"
         >
           {/* ETAPA 1 — Dados */}
           <div className="flex items-center gap-3">
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-yellow-500 text-sm font-bold text-white">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-bold text-white">
               1
             </span>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">
                 Seus dados
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-600">
                 Como podemos te chamar e te encontrar.
               </p>
             </div>
@@ -210,7 +219,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             <div>
               <label
                 htmlFor="mqs-name"
-                className="mb-2 block font-semibold text-gray-700"
+                className="mb-2 block font-semibold text-gray-900"
               >
                 Nome completo
               </label>
@@ -230,15 +239,17 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                 placeholder="Digite seu nome"
                 maxLength={100}
                 autoComplete="name"
-                className={`w-full rounded-xl border p-4 transition focus:outline-none focus:ring-2 ${
+                className={`w-full rounded-xl border-2 p-4 text-gray-900 placeholder-gray-400 transition focus:bg-white focus:outline-none focus:ring-2 ${
                   nameError
-                    ? 'border-red-400 focus:ring-red-300'
-                    : 'border-gray-200 focus:ring-yellow-400'
+                    ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-200'
+                    : 'border-gray-300 bg-gray-50 focus:border-yellow-500 focus:ring-yellow-200'
                 }`}
                 required
               />
               {nameError && (
-                <p className="mt-2 text-sm text-red-500">{nameError}</p>
+                <p className="mt-2 text-sm font-medium text-red-600">
+                  {nameError}
+                </p>
               )}
             </div>
 
@@ -246,7 +257,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             <div>
               <label
                 htmlFor="mqs-whatsapp"
-                className="mb-2 block font-semibold text-gray-700"
+                className="mb-2 block font-semibold text-gray-900"
               >
                 WhatsApp
               </label>
@@ -268,32 +279,34 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                 placeholder="(61) 99999-8888"
                 inputMode="numeric"
                 autoComplete="tel-national"
-                className={`w-full rounded-xl border p-4 transition focus:outline-none focus:ring-2 ${
+                className={`w-full rounded-xl border-2 p-4 text-gray-900 placeholder-gray-400 transition focus:bg-white focus:outline-none focus:ring-2 ${
                   whatsappError
-                    ? 'border-red-400 focus:ring-red-300'
-                    : 'border-gray-200 focus:ring-yellow-400'
+                    ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-200'
+                    : 'border-gray-300 bg-gray-50 focus:border-yellow-500 focus:ring-yellow-200'
                 }`}
                 required
               />
               {whatsappError && (
-                <p className="mt-2 text-sm text-red-500">{whatsappError}</p>
+                <p className="mt-2 text-sm font-medium text-red-600">
+                  {whatsappError}
+                </p>
               )}
             </div>
           </div>
 
-          <div className="my-10 h-px bg-gray-100" />
+          <div className="my-10 h-px bg-gray-200" />
 
           {/* ETAPA 2 — Afinidades */}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-yellow-500 text-sm font-bold text-white">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-900 text-sm font-bold text-white">
                 2
               </span>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Suas áreas de serviço
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-600">
                   Toque nos corações para dar uma nota de 0 a 10. Toque de novo
                   no mesmo coração para zerar.
                 </p>
@@ -303,8 +316,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold ${
                 ratedCount > 0
-                  ? 'bg-yellow-100 text-yellow-700'
-                  : 'bg-gray-100 text-gray-500'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-200 text-gray-600'
               }`}
             >
               {ratedCount} de {categories.length} avaliadas
@@ -312,22 +325,25 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
           </div>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            {categories.map((cat) => {
+            {categories.map((cat, index) => {
               const value = values[cat.name];
               const isPreviewing = hovered?.cat === cat.name;
               const shown = isPreviewing ? hovered!.value : value;
+              const isLastOdd = isOdd && index === categories.length - 1;
 
               return (
                 <div
                   key={cat.name}
-                  className={`rounded-2xl border p-4 transition-colors duration-200 sm:p-5 ${
+                  className={`rounded-2xl border-2 p-4 transition-colors duration-200 sm:p-5 ${
+                    isLastOdd ? 'sm:col-span-2' : ''
+                  } ${
                     value > 0
-                      ? 'border-yellow-300 bg-yellow-50'
-                      : 'border-gray-200 bg-white'
+                      ? 'border-yellow-400 bg-yellow-50'
+                      : 'border-gray-200 bg-gray-50 hover:border-yellow-300'
                   }`}
                 >
                   <div className="mb-3 flex items-center justify-between">
-                    <span className="flex items-center gap-2 font-medium text-gray-800">
+                    <span className="flex items-center gap-2 font-semibold text-gray-900">
                       <span className="text-xl" aria-hidden="true">
                         {cat.emoji}
                       </span>
@@ -335,10 +351,10 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                     </span>
 
                     <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                      className={`rounded-full px-2.5 py-1 text-xs font-bold ${
                         value > 0
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-gray-100 text-gray-400'
+                          ? 'bg-gray-900 text-white'
+                          : 'bg-gray-200 text-gray-500'
                       }`}
                     >
                       {value}/10
@@ -348,7 +364,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                   <div
                     role="radiogroup"
                     aria-label={`Afinidade com ${cat.name}, de 0 a 10`}
-                    className="flex w-full items-center justify-between"
+                    className="flex w-full max-w-md items-center justify-between"
                     onMouseLeave={() => setHovered(null)}
                   >
                     {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
@@ -361,12 +377,12 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                         }
                         aria-label={`Nota ${n} de 10 para ${cat.name}`}
                         aria-pressed={value === n}
-                        className={`h-6 w-6 p-0.5 touch-manipulation transition-transform duration-150 hover:scale-125 active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 rounded sm:h-7 sm:w-7 ${
+                        className={`h-6 w-6 p-0.5 touch-manipulation transition-transform duration-150 hover:scale-125 active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 rounded sm:h-7 sm:w-7 ${
                           n <= shown
                             ? isPreviewing
                               ? 'text-yellow-400'
                               : 'text-yellow-500'
-                            : 'text-gray-300'
+                            : 'text-gray-400'
                         }`}
                       >
                         <HeartIcon filled={n <= shown} />
@@ -375,8 +391,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                   </div>
 
                   <p
-                    className={`mt-2 text-sm ${
-                      value > 0 ? 'text-yellow-700' : 'text-gray-400'
+                    className={`mt-2 text-sm font-medium ${
+                      value > 0 ? 'text-yellow-800' : 'text-gray-500'
                     }`}
                   >
                     {affinityLabel(value)}
@@ -386,14 +402,39 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             })}
           </div>
 
+                        {/* validacao formulario */}
+              <div className="mt-10 rounded-2xl border border-yellow-200 bg-yellow-50 p-5">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={allowPublicDisplay}
+                    onChange={(e) => setAllowPublicDisplay(e.target.checked)}
+                    className="mt-1 h-5 w-5 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500"
+                  />
+
+                  <span className="text-sm leading-6 text-gray-700">
+                    <strong>Autorizo</strong> a divulgação do meu <strong>primeiro nome</strong> e
+                    da minha <strong>principal área de interesse</strong> na página do
+                    <strong> Mãos que Servem</strong>, com o objetivo de incentivar outras
+                    pessoas a participarem da iniciativa.
+                    <br />
+                    <span className="text-gray-500">
+                      Meu WhatsApp e as demais informações fornecidas não serão exibidos
+                      publicamente. Posso solicitar a remoção dessa autorização a qualquer
+                      momento.
+                    </span>
+                  </span>
+                </label>
+              </div>
+
           {/* Botão */}
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`mt-10 w-full rounded-xl bg-yellow-500 py-4 font-semibold text-white shadow-lg transition-all duration-300 ${
-              isSubmitting
-                ? 'cursor-not-allowed opacity-60'
-                : 'hover:-translate-y-0.5 hover:bg-yellow-600 hover:shadow-xl'
+            disabled={isSubmitting || !allowPublicDisplay}
+            className={`mt-10 w-full rounded-xl py-4 font-bold shadow-lg transition-all duration-300 ${
+              isSubmitting || !allowPublicDisplay
+                ? "cursor-not-allowed bg-gray-300 text-gray-500"
+                : "bg-yellow-400 text-gray-900 hover:-translate-y-0.5 hover:bg-yellow-500 hover:shadow-xl"
             }`}
           >
             {isSubmitting ? (
@@ -457,6 +498,8 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
                 </svg>
               </div>
 
+
+
               <h2 className="text-2xl font-bold text-gray-900">
                 Resposta enviada!
               </h2>
@@ -471,13 +514,14 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
             </div>
           </div>
         )}
+        
       </div>
+      
     </section>
   );
 };
 
 export default InterestForm;
-
 
 
 

@@ -39,26 +39,27 @@ const Volunteers = () => {
   if (sortBy === "score") {
 
     const scoreA =
+
       a.natureza +
       a.animais +
       a.criancas +
-      a.idosos +
-      a.pcd +
-      a.familias +
-      a.empresas +
-      a.hospitais +
-      a.presidios;
+      a.idosos;
+      // a.pcd +
+      // a.familias;
+      // a.empresas +
+      // a.hospitais +
+      // a.presidios;
 
     const scoreB =
       b.natureza +
       b.animais +
       b.criancas +
-      b.idosos +
-      b.pcd +
-      b.familias +
-      b.empresas +
-      b.hospitais +
-      b.presidios;
+      b.idosos;
+      // b.pcd +
+      // b.familias;
+      // b.empresas +
+      // b.hospitais +
+      // b.presidios;
 
     return scoreB - scoreA;
   }
