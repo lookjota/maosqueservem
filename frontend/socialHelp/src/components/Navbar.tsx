@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "Home", link: "#home" },
     { name: "Serviços", link: "#servicos" },
     { name: "Comunidade", link: "#comunidade" },
-    { name: "Voluntários", link: "/volunteers", route: true },
+    // { name: "Voluntários", link: "/volunteers", route: true },
   ];
 
   // scroll spy
