@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 import VolunteerCard from "../components/VolunteerCard";
 import VolunteerStats from "../components/VolunteerStats";
 import { useNavigate } from "react-router-dom";
+import AngelBattle from "../components/AngelBattle";
 
 const Volunteers = () => {
   const [volunteers, setVolunteers] = useState<any[]>([]);
@@ -102,6 +103,10 @@ const filteredVolunteers = sortedVolunteers.filter((volunteer) => {
       <h1 className="text-4xl font-bold mb-2">
         ❤️ Voluntários cadastrados
       </h1>
+
+      <div className="my-6">
+        <AngelBattle />
+      </div>
 
       <div className="flex flex-col md:flex-row gap-4 justify-between items-center mb-8">
 

@@ -11,6 +11,7 @@ import LiveCommunityFeed from "../components/LiveCommunityFeed";
 import { useToast } from "../context/ToastContext";
 import { eventBus } from '../lib/eventBus'
 import FinalMessage from '../components/FinalMessage'
+import AngelBattle from '../components/AngelBattle'
 
 const Home = () => {
   const { addToast } = useToast();
@@ -54,7 +55,7 @@ const Home = () => {
       <Navbar />
       <section id="home">
       
-
+      
       <section id="formulario">
         <InterestForm
           onFinish={(data) => {
