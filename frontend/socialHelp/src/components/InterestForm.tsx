@@ -181,7 +181,7 @@ const InterestForm = ({ onFinish }: InterestFormProps) => {
         {/* Título */}
         <div className="mb-14 text-center md:mb-16">
           <span className="inline-flex items-center gap-2 rounded-full border border-yellow-200 bg-white px-4 py-1.5 text-sm font-semibold text-yellow-800 shadow-sm">
-            ❤️ Mãos que Servem
+            ❤️ Missão 7
           </span>
 
           <h2 className="mt-5 text-4xl font-bold text-gray-900 md:text-5xl">

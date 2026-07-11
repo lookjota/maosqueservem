@@ -74,7 +74,7 @@ const Navbar = () => {
           <a href="#home" className="flex items-center gap-2">
             <img src={Logo} alt="Mãos que Servem" className="h-10 w-auto" />
             <span className="font-semibold text-gray-800 block">
-              Mãos que Servem
+              Missão 7
             </span>
           </a>
 

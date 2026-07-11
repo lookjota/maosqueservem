@@ -11,6 +11,7 @@ import LiveCommunityFeed from "../components/LiveCommunityFeed";
 import { useToast } from "../context/ToastContext";
 import { eventBus } from '../lib/eventBus'
 import FinalMessage from '../components/FinalMessage'
+import AngelBattle from '../components/AngelBattle'
 
 const Home = () => {
   const { addToast } = useToast();
@@ -72,6 +73,10 @@ const Home = () => {
             }, 100);
           }}
         />
+        <div className="my-6">
+                <AngelBattle />
+              </div>
+        
         {result && <ResultSection result={result} />}
       <section id="comunidade">
         <CommunityChart />
