@@ -13,6 +13,8 @@ import { eventBus } from '../lib/eventBus'
 import FinalMessage from '../components/FinalMessage'
 import AngelBattle from '../components/AngelBattle'
 
+import { Analytics } from "@vercel/analytics/next"
+
 const Home = () => {
   const { addToast } = useToast();
 
