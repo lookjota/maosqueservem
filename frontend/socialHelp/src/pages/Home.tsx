@@ -73,11 +73,11 @@ const Home = () => {
             }, 100);
           }}
         />
-        <div className="my-6">
-                <AngelBattle />
-              </div>
+
+
         
         {result && <ResultSection result={result} />}
+                <AngelBattle />
       <section id="comunidade">
         <CommunityChart />
       </section>
